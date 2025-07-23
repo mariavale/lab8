@@ -90,6 +90,10 @@ app.get('/register', (req, res) => {
     res.render('pages/register')
 })
 
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
 
 app.post('/register', async (req, res) => {
     var username = req.body.username;
@@ -124,9 +128,9 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, user.password);
             
             if(match){
-                res.redirect('/discover')
                 req.session.user = user;
                 req.session.save();
+                res.redirect('/discover')
             }
             else{
                 res.render('/login', {message: "Wrong username or password!"})
@@ -170,5 +174,5 @@ app.get('/logout', (req, res) => {
 // <!-- Section 5 : Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-app.listen(3000);
+module.exports = app.listen(3000);
 console.log('Server is listening on port 3000');
